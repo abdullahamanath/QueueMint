@@ -8,15 +8,15 @@
    USDC + agent marks. Restraint is the disguise.
    ───────────────────────────────────────────────────────────── */
 :root {
-  --cream: #eceae4;
-  --paper: #f5f3ed;
-  --ink: #1a1714;
-  --muted: #8a8276;
-  --keyline: #d6d1c6;
+  --cream: #e7eae5;
+  --paper: #f1f4ee;
+  --ink: #181b18;
+  --muted: #7f857a;
+  --keyline: #cdd2c9;
   --oxblood: #7a2e22;
-  --gilt: #9a7b3f;
+  --gilt: #94793f;
   --sage: #3f6b4e;
-  --soldout: #e4e0d6;
+  --soldout: #dde0d8;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,7 +41,7 @@ a { color: inherit; text-decoration: none; }
 .serif { font-family: 'Prata', Georgia, serif; font-weight: 400; letter-spacing: 0; }
 .it { font-style: italic; }
 .mono { font-family: 'Overpass Mono', monospace; }
-.lbl { font-family: 'Overpass Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.lbl { font-family: 'Overpass Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--muted); }
 .ox { color: var(--oxblood); }
 .gilt-t { color: var(--gilt); }
 .sage-t { color: var(--sage); }
@@ -98,12 +98,12 @@ a { color: inherit; text-decoration: none; }
 .stamp span { font-family: 'Overpass Mono', monospace; font-weight: 600; font-size: 13px; letter-spacing: 0.2em; color: var(--oxblood); border: 2px solid var(--oxblood); padding: 6px 14px; transform: rotate(-14deg); background: rgba(245,243,237,0.5); }
 
 /* misc */
-.menu-item { display: block; width: 100%; text-align: left; padding: 11px 14px; background: transparent; border: none; border-top: 1px solid var(--keyline); color: var(--ink); font-family: 'Overpass Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
-.menu-item:hover { background: rgba(26,23,20,0.05); }
+.gallery-line { display: block; width: 100%; text-align: left; padding: 10px 15px 10px 14px; margin: 4px 8px; background: transparent; border: none; border-left: 2px solid var(--keyline); color: var(--ink); font-family: 'Overpass Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; transition: border-color 0.14s, color 0.14s, background 0.14s; }
+.gallery-line:hover { border-left-color: var(--oxblood); color: var(--oxblood); background: rgba(122,46,34,0.05); }
 .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 300; background: var(--ink); color: var(--cream); padding: 11px 20px; font-family: 'Overpass Mono', monospace; font-size: 11.5px; letter-spacing: 0.06em; }
 .scrim { position: fixed; inset: 0; z-index: 100; background: rgba(26,23,20,0.45); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 20px; overflow: auto; }
 .modal { width: min(560px, 100%); background: var(--cream); border: 1px solid var(--ink); padding: 28px; max-height: 92vh; overflow: auto; }
-@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-.rise { animation: rise 0.5s cubic-bezier(0.2,0.7,0.2,1) both; }
+@keyframes settle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.settle { animation: settle 0.5s cubic-bezier(0.2,0.7,0.2,1) both; }
 
 @media (max-width: 640px) { .topbar { grid-template-columns: 1fr auto; } .topbar > :nth-child(1) { display: none; } }

@@ -120,9 +120,9 @@ export default function Home() {
                   <div onClick={() => setWalletOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 60 }} />
                   <div className="frame" style={{ position: "absolute", top: "calc(100% + 8px)", right: 0, zIndex: 61, minWidth: 230, padding: 0 }}>
                     <div style={{ padding: "13px 15px" }}><div className="lbl">member no.</div><div className="mono" style={{ fontSize: 13, marginTop: 5 }}>{shortAddr(account, 9, 6)}</div><div className="mono gilt-t" style={{ fontSize: 12, marginTop: 5 }}>{balance || "0"} USDC</div></div>
-                    {!chainOk && <button className="menu-item ox" onClick={() => switchToArc().catch(() => {})}>switch to ARC</button>}
-                    <a className="menu-item" href={`${ARCSCAN}/address/${account}`} target="_blank" rel="noopener noreferrer">arcscan ↗</a>
-                    <button className="menu-item" onClick={() => { setWalletOpen(false); disconnect(); }}>disconnect</button>
+                    {!chainOk && <button className="gallery-line ox" onClick={() => switchToArc().catch(() => {})}>switch to ARC</button>}
+                    <a className="gallery-line" href={`${ARCSCAN}/address/${account}`} target="_blank" rel="noopener noreferrer">arcscan ↗</a>
+                    <button className="gallery-line" onClick={() => { setWalletOpen(false); disconnect(); }}>disconnect</button>
                   </div>
                 </>)}
               </div>
@@ -232,7 +232,7 @@ export default function Home() {
       {/* create venue modal */}
       {open && (
         <div className="scrim" onClick={() => setOpen(false)}>
-          <div className="modal rise" onClick={(e) => e.stopPropagation()}>
+          <div className="modal settle" onClick={(e) => e.stopPropagation()}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
               <h2 className="serif it" style={{ fontSize: 32 }}>Hang a venue</h2>
               <button onClick={() => setOpen(false)} className="btn btn--ghost btn--sm">✕</button>
@@ -254,7 +254,7 @@ export default function Home() {
         </div>
       )}
 
-      {toast && <div className="toast rise" style={{ color: toast.startsWith("✓") ? undefined : toast.startsWith("✗") ? "#ff9b8a" : undefined }}>{toast}</div>}
+      {toast && <div className="toast settle" style={{ color: toast.startsWith("✓") ? undefined : toast.startsWith("✗") ? "#ff9b8a" : undefined }}>{toast}</div>}
     </div>
   );
 }
