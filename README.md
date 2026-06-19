@@ -1,55 +1,78 @@
-<h1 align="center">QueueMint</h1>
+![QueueMint — the skip-pass gallery](docs/cover.png)
 
-<p align="center"><em>Skip the line. Minted by the cent.</em></p>
+`CAT. №14`  ·  `ARC TESTNET`  ·  `ON VIEW` → **[queuemint-arc.vercel.app](https://queuemint-arc.vercel.app)**
 
-<p align="center">
-  <a href="https://queuemint-arc.vercel.app">Live app</a> ·
-  <a href="https://testnet.arcscan.app/address/0x96C81dE4a39463541d5300a500e48e5992A5B17F">Contract on ArcScan</a> ·
-  Native USDC on ARC testnet
-</p>
+# QueueMint
+### a standing exhibition of skip-the-line passes
 
 ---
 
-## What it is
+### Wall text
 
-Queues waste the most valuable thing people — and agents — have: time. Every existing fix is broken. Paper/app fast-passes are opaque (you never see how many were sold) and oversold until the "fast" lane is also a line; premium tiers are coarse (you can't pay 20¢ for the one skip you need once); and none of them can be bought by a software agent.
+A queue is a tax on time, collected in the one currency you can't earn back. The usual ways out are
+broken: paper fast-passes are sold in secret and oversold until the fast lane is a line too; premium tiers
+ask for $99 a year when all you wanted was *one* skip, *once*; and none of it can be bought by a piece of
+software at all.
 
-QueueMint is a skip-the-line pass that fixes all four. A venue — any queue: an airport gate, a ramen counter, a support desk, a rate-limited API — opens a **limited daily edition** of skip-passes. Anyone mints one for **10–30¢ in native USDC**; it's an NFT bound to you and to the day, **burned when you reach the front** — provably one-time, no resale-after-use. The daily edition is a public on-chain cap nobody can secretly inflate, the fee is a real cent-scale payment, and an agent can buy and redeem a pass entirely programmatically.
+QueueMint hangs each queue on the wall as a framed piece. The operator opens a **limited edition for the
+day**; a visitor — a person, or an agent — acquires a single skip-pass for **ten to thirty cents** of native
+USDC. The pass is bound to its holder and to the day, and it is **struck and burned** the moment it's used at
+the front of the line. One skip. No second printing. No resale once cancelled.
 
-It's wrapped in a warm-cream art museum: each venue hangs as a framed piece with a brass plaque showing today's edition, price, and a big numeral of **skips left**; minted passes are admission cards that get struck through with an oxblood **DEACCESSIONED · BURNED** cancellation stamp when redeemed.
+The edition size is a public number on the wall, not a figure in a back office. The price is set, in the
+open, by a curator. And the whole thing costs cents — which is the part that only works here.
 
-## Why it can only work on Arc
+### On loan from Arc
 
-The 10–30¢ price is **only coherent where USDC is native gas and finality is sub-second**: a mint costs roughly its face value plus a sub-cent fee, with no second gas token, no ERC-20 approval, no fee volatility. On any other chain a 15¢ on-chain sale is eaten alive by gas and approve-flows — and a cent-scale *agent* economy is simply impossible. QueueMint leans into Arc's agentic thesis: an autonomous **curator agent** authors each day's edition and surge/decay-prices it on-chain, and the **x402** endpoint turns priority access into a paid HTTP-402 API. Take away native-USDC nanopayments and cheap on-chain agents and the whole thing collapses into a human-only ticketing toy.
+Thirty cents is not a price you can charge on a chain where gas is a separate, swinging token: the fee eats
+the sale, and an *agent* paying cents all day is a non-starter. Arc makes native USDC the gas **and** the
+money — a mint costs roughly its own face value plus a sliver, micro-pricing is coherent, and software can
+pay its own way. Take that away and QueueMint is just an expensive, human-only turnstile. Here it's a
+self-pricing, burn-on-use line-skip market.
 
-## The agents
+### The curators
 
-- **Curator** ([`agent/curator.mjs`](agent/curator.mjs)) — a per-venue role (set via `setAgent`) that opens the daily edition and surge/decay-prices it (0.10→0.30 USDC) by live demand. It has **zero money authority**: it can never move a cent, mint a pass, or exceed the venue's immutable daily ceiling. The scarcity you see is authored by software.
-- **x402 skip** ([`app/api/x402/skip/[venueId]/route.ts`](app/api/x402/skip/%5BvenueId%5D/route.ts)) — an AI agent pays a micro-fee over the real **x402** (HTTP-402) standard to acquire a skip-pass with no wallet UI. Honest scope: Arc's USDC is the native coin (no ERC-20, no EIP-3009 gasless), so this is **pay-then-prove** — the agent mints via the contract (native USDC, forwarded to the venue owner) and proves it with the tx hash in `X-PAYMENT`; the server verifies the `Minted` event on-chain. Genuine `402`/`X-PAYMENT`/`X-PAYMENT-RESPONSE` wire format, self-verified, no facilitator. Demo client: [`agent/skip-demo.mjs`](agent/skip-demo.mjs).
+Two pieces of software keep the gallery running.
 
-## The contract
+> **⟡ The curator** — an autonomous wallet, appointed per venue, that opens each day's edition and lets the
+> price *breathe*: surging toward 30¢ as a run sells out, decaying toward 10¢ when the hall is quiet — every
+> move on-chain. It is allowed to set size and price and **nothing else**: it can never touch a cent, mint a
+> pass, or print beyond the venue's permanent daily ceiling. → [`agent/curator.mjs`](agent/curator.mjs)
 
-[`QueueMint.sol`](contracts/QueueMint.sol) — a self-contained ERC-721-lite (no OpenZeppelin), no owner/admin/fee/upgrade. Passes are **non-transferable** (a skip-pass is bound to buyer + day; resale would defeat daily scarcity). Every mint forwards 100% of the payment straight to the venue owner, so the contract **never holds a balance**. CEI throughout; the burn is triple-guarded (owner-zeroed, redeemed-flag, day check). Two independent adversarial money-safety audits before deploy found **zero issues**.
+> **▣ The doorman, via x402** — priority access offered as a paid HTTP endpoint. An agent pays the micro-fee
+> over the genuine **x402** (`402` / `X-PAYMENT` / `X-PAYMENT-RESPONSE`) handshake and receives a skip-pass
+> with no wallet UI. Honest about the medium: Arc's USDC is the *native* coin, so this is **pay-then-prove** —
+> the agent mints through the contract and proves it with the transaction; the server reads the `Minted` event
+> on-chain. Real wire format, self-verified, no facilitator, not the gasless EIP-3009 variant.
+> → [`app/api/x402/skip/[venueId]/route.ts`](app/api/x402/skip/%5BvenueId%5D/route.ts) · demo
+> [`agent/skip-demo.mjs`](agent/skip-demo.mjs)
 
-| | |
-|---|---|
-| **Network** | ARC testnet (chain `5042002`) |
-| **Address** | [`0x96C81dE4a39463541d5300a500e48e5992A5B17F`](https://testnet.arcscan.app/address/0x96C81dE4a39463541d5300a500e48e5992A5B17F) |
-| **Compiler** | 0.8.35, optimizer 200 — verified on ArcScan |
+### Provenance & specifications
 
-## Run it locally
+[`QueueMint.sol`](contracts/QueueMint.sol) is a self-contained ERC-721-lite — no OpenZeppelin, no owner, no
+admin, no fee, no upgrade. Passes are deliberately **non-transferable**; a mint forwards **100%** to the venue
+owner so the contract is never a vault; the burn is triple-locked. Two independent adversarial reviews cleared
+it before it was hung — zero money-safety findings.
+
+```
+medium ........ native USDC on ARC testnet (chain 5042002)
+accession ..... 0x96C81dE4a39463541d5300a500e48e5992A5B17F   (verified, ArcScan)
+edition ....... one limited print run per venue, per UTC day
+condition ..... burned on use · non-transferable · custody-free
+```
+
+### Visiting
 
 ```bash
 npm install
-npm run dev            # http://localhost:3000
+npm run dev          # the gallery opens at http://localhost:3000
 ```
 
-To run the curator agent, set it as a venue's agent and run `agent/curator.mjs` from a wallet with a little USDC for gas; otherwise the venue owner opens editions manually in the UI.
+Hang a venue, open its edition, acquire a pass, and redeem it to watch the cancellation stamp fall. To let
+the curator price the room, set a venue's agent and run `agent/curator.mjs` from a wallet holding a little
+USDC for gas.
 
-## Built with
+### Colophon
 
-Next.js 16 · React 19 · ethers v6 · Solidity 0.8.35 · Tailwind v4 — on ARC.
-
----
-
-<p align="center"><sub>A line-skip market that only pencils out where gas is the dollar.</sub></p>
+Next.js 16 · React 19 · ethers v6 · Solidity 0.8.35 · Tailwind v4. Typeset in Prata & Overpass Mono. Built in
+Lisbon, settled on Arc.
