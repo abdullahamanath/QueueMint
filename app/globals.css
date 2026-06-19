@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Prata&family=Overpass+Mono:wght@300;400;600&display=swap');
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   QueueMint — "the skip-pass gallery": a warm-cream art museum.
+   Didone serif (Prata) + mono labels (Overpass Mono). Oxblood for
+   live numerals / acquire / the burn cancellation; patina gilt for
+   USDC + agent marks. Restraint is the disguise.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  --cream: #eceae4;
+  --paper: #f5f3ed;
+  --ink: #1a1714;
+  --muted: #8a8276;
+  --keyline: #d6d1c6;
+  --oxblood: #7a2e22;
+  --gilt: #9a7b3f;
+  --sage: #3f6b4e;
+  --soldout: #e4e0d6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--cream); }
+html, body { max-width: 100%; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Overpass Mono', monospace;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+button { font-family: inherit; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--oxblood); color: var(--cream); }
+::-webkit-scrollbar { height: 9px; width: 9px; }
+::-webkit-scrollbar-thumb { background: var(--keyline); border-radius: 99px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ── type ─────────────────────────────────────────────── */
+.serif { font-family: 'Prata', Georgia, serif; font-weight: 400; letter-spacing: 0; }
+.it { font-style: italic; }
+.mono { font-family: 'Overpass Mono', monospace; }
+.lbl { font-family: 'Overpass Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.ox { color: var(--oxblood); }
+.gilt-t { color: var(--gilt); }
+.sage-t { color: var(--sage); }
+.usdc::before { content: "ø"; margin-right: 1px; }
+
+/* ── chrome ───────────────────────────────────────────── */
+.wrap { max-width: 1340px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 56px); }
+.topbar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--keyline); gap: 14px; }
+.nav-link { font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); opacity: 0.78; transition: opacity 0.14s; }
+.nav-link:hover, .nav-link[data-on="true"] { opacity: 1; }
+.nav-link[data-on="true"] { color: var(--oxblood); }
+
+/* ── buttons ──────────────────────────────────────────── */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid var(--ink); background: transparent; color: var(--ink); padding: 11px 20px; border-radius: 999px; font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; line-height: 1; transition: transform 0.07s, background 0.16s, color 0.16s, border-color 0.16s; }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn--ox { background: var(--oxblood); color: var(--cream); border-color: var(--oxblood); }
+.btn--ox:hover:not(:disabled) { background: #6a271d; }
+.btn--ink { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.btn--ink:hover:not(:disabled) { background: #2a2620; }
+.btn--ghost:hover:not(:disabled) { background: rgba(26,23,20,0.05); }
+.btn--sm { padding: 8px 14px; font-size: 10px; }
+.btn--block { width: 100%; }
+
+/* ── inputs ───────────────────────────────────────────── */
+.input { width: 100%; background: var(--paper); border: 1px solid var(--keyline); border-radius: 4px; padding: 11px 13px; font-family: 'Overpass Mono', monospace; font-size: 13.5px; color: var(--ink); outline: none; transition: border-color 0.14s; }
+.input:focus { border-color: var(--oxblood); }
+.input::placeholder { color: var(--muted); }
+.chip { padding: 8px 14px; border: 1px solid var(--keyline); border-radius: 999px; background: var(--paper); color: var(--ink); font-family: 'Overpass Mono', monospace; font-size: 12px; }
+.chip[data-on="true"] { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+
+/* ── framed piece (the venue) ─────────────────────────── */
+.frame { background: var(--paper); border: 1px solid var(--keyline); box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 18px 40px -30px rgba(26,23,20,0.4); padding: 16px; }
+.frame__plate { position: relative; aspect-ratio: 4/5; overflow: hidden; border: 1px solid var(--oxblood); background: var(--soldout); }
+.frame__plate img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(0.96); }
+.frame--soldout .frame__plate img { filter: grayscale(0.7) saturate(0.5) brightness(0.95); }
+.room-tag { position: absolute; top: 10px; left: 10px; background: var(--cream); padding: 4px 9px; }
+.frame--agent { box-shadow: 0 0 0 1px var(--gilt), 0 18px 40px -30px rgba(26,23,20,0.4); }
+
+/* the brass plaque */
+.plaque { margin-top: 16px; }
+.spec { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dotted var(--keyline); font-size: 11.5px; }
+.spec .k { color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; font-size: 10px; }
+.num-big { font-family: 'Prata', serif; color: var(--oxblood); line-height: 0.9; }
+
+/* horizontal rail */
+.rail { display: flex; gap: clamp(16px, 2.5vw, 34px); overflow-x: auto; padding: 4px 4px 24px; scroll-snap-type: x mandatory; }
+.rail > * { scroll-snap-align: start; flex: 0 0 clamp(280px, 30vw, 360px); }
+
+/* admission card / pass */
+.ticket { position: relative; background: var(--paper); border: 1px solid var(--ink); padding: 18px; overflow: hidden; }
+.ticket--burned { opacity: 0.66; }
+.stamp { position: absolute; inset: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; }
+.stamp span { font-family: 'Overpass Mono', monospace; font-weight: 600; font-size: 13px; letter-spacing: 0.2em; color: var(--oxblood); border: 2px solid var(--oxblood); padding: 6px 14px; transform: rotate(-14deg); background: rgba(245,243,237,0.5); }
+
+/* misc */
+.menu-item { display: block; width: 100%; text-align: left; padding: 11px 14px; background: transparent; border: none; border-top: 1px solid var(--keyline); color: var(--ink); font-family: 'Overpass Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.menu-item:hover { background: rgba(26,23,20,0.05); }
+.toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 300; background: var(--ink); color: var(--cream); padding: 11px 20px; font-family: 'Overpass Mono', monospace; font-size: 11.5px; letter-spacing: 0.06em; }
+.scrim { position: fixed; inset: 0; z-index: 100; background: rgba(26,23,20,0.45); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; padding: 20px; overflow: auto; }
+.modal { width: min(560px, 100%); background: var(--cream); border: 1px solid var(--ink); padding: 28px; max-height: 92vh; overflow: auto; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.rise { animation: rise 0.5s cubic-bezier(0.2,0.7,0.2,1) both; }
+
+@media (max-width: 640px) { .topbar { grid-template-columns: 1fr auto; } .topbar > :nth-child(1) { display: none; } }
